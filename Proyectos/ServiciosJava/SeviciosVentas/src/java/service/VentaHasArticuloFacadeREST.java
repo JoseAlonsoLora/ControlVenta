@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servicios.service;
+package service;
 
-import Modelo.VentaHasArticulo;
-import Modelo.VentaHasArticuloPK;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,6 +19,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
+import modelo.VentaHasArticulo;
+import modelo.VentaHasArticuloPK;
 
 /**
  *
@@ -41,7 +41,7 @@ public class VentaHasArticuloFacadeREST extends AbstractFacade<VentaHasArticulo>
          * it is ignored in the following code.
          * Matrix parameters are used as field names to build a primary key instance.
          */
-        Modelo.VentaHasArticuloPK key = new Modelo.VentaHasArticuloPK();
+        modelo.VentaHasArticuloPK key = new modelo.VentaHasArticuloPK();
         javax.ws.rs.core.MultivaluedMap<String, String> map = pathSegment.getMatrixParameters();
         java.util.List<String> ventaidVenta = map.get("ventaidVenta");
         if (ventaidVenta != null && !ventaidVenta.isEmpty()) {
@@ -75,7 +75,7 @@ public class VentaHasArticuloFacadeREST extends AbstractFacade<VentaHasArticulo>
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") PathSegment id) {
-        Modelo.VentaHasArticuloPK key = getPrimaryKey(id);
+        modelo.VentaHasArticuloPK key = getPrimaryKey(id);
         super.remove(super.find(key));
     }
 
@@ -83,7 +83,7 @@ public class VentaHasArticuloFacadeREST extends AbstractFacade<VentaHasArticulo>
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public VentaHasArticulo find(@PathParam("id") PathSegment id) {
-        Modelo.VentaHasArticuloPK key = getPrimaryKey(id);
+        modelo.VentaHasArticuloPK key = getPrimaryKey(id);
         return super.find(key);
     }
 
