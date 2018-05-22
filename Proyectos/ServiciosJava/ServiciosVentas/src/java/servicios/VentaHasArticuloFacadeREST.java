@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service;
+package servicios;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -30,7 +30,7 @@ import modelo.VentaHasArticuloPK;
 @Path("modelo.ventahasarticulo")
 public class VentaHasArticuloFacadeREST extends AbstractFacade<VentaHasArticulo> {
 
-    @PersistenceContext(unitName = "SeviciosVentasPU")
+    @PersistenceContext(unitName = "ServiciosVentasPU")
     private EntityManager em;
 
     private VentaHasArticuloPK getPrimaryKey(PathSegment pathSegment) {
