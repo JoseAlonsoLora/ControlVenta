@@ -25,7 +25,7 @@ SECRET_KEY = 'fx0up%0d@vt^@#klwopuba@d8(n16q=p!f6ie2s9ibo58z$lny'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.100.13','localhost','127.0.0.1','192.168.100.12']
+ALLOWED_HOSTS = ['192.168.100.13','localhost','127.0.0.1','192.168.100.12', '192.168.0.9']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'modelo',
+    'corsheaders',
     'rest_framework',
 ]
 
@@ -45,6 +46,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -85,6 +88,8 @@ DATABASES = {
         'PORT':'3306',
     }
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Password validation
