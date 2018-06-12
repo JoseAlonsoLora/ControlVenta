@@ -1,0 +1,1 @@
+var mod_consultar_ventas = angular.module("consultar_ventas", ['ui.bootstrap', 'chart.js']);
