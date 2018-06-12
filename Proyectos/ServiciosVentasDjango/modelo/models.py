@@ -11,7 +11,7 @@ from django.db import models
 
 
 class Empleado(models.Model):
-    idempleado = models.IntegerField(db_column='idEmpleado', primary_key=True)  # Field name made lowercase.
+    idempleado = models.AutoField(db_column='idEmpleado', primary_key=True)  # Field name made lowercase.
     nombres = models.CharField(max_length=45)
     apellidos = models.CharField(max_length=45)
     correoelectronico = models.CharField(db_column='correoElectronico', max_length=60)  # Field name made lowercase.
@@ -22,7 +22,8 @@ class Empleado(models.Model):
 
 
 class Sesion(models.Model):
-    nombreusuario = models.CharField(db_column='nombreUsuario', primary_key=True, max_length=45)  # Field name made lowercase.
+    tipousuario = models.CharField(db_column='tipoUsuario', max_length=45)  # Field name made lowercase.
+    clave = models.CharField(primary_key=True, max_length=45)
 
     class Meta:
         managed = False

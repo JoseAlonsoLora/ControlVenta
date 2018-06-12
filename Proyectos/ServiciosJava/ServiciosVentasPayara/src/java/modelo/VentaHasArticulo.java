@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author raymundo
  */
 @Entity
-@Table(name = "venta_has_articulo")
+@Table(name = "Venta_has_Articulo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "VentaHasArticulo.findAll", query = "SELECT v FROM VentaHasArticulo v")

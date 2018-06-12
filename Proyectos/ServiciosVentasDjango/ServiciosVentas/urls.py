@@ -20,6 +20,5 @@ from modelo.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
-    url(r'^empleado/$', EmpleadoList.as_view()),
-    url(r'^usuario/$', UsuarioList.as_view()),
+    url(r'^empleado/', crearObtenerEmpleado),    
 ]

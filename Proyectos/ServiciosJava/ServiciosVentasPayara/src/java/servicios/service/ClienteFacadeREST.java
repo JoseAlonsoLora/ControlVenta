@@ -5,7 +5,9 @@
  */
 package servicios.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,6 +42,7 @@ public class ClienteFacadeREST extends AbstractFacade<Cliente> {
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Cliente entity) {
         super.create(entity);
+        
     }
 
     @PUT
@@ -58,14 +61,20 @@ public class ClienteFacadeREST extends AbstractFacade<Cliente> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Cliente find(@PathParam("id") Integer id) {
-        return super.find(id);
+    public List<Cliente> find(@PathParam("id") Integer id) {
+        List<Cliente> todosCliente =  super.findAll();
+        List<Cliente> clientesEmpleado = new ArrayList();
+        for(Cliente cliente: todosCliente){
+            if(cliente.getEmpleadoidEmpleado().getIdEmpleado() == id)
+                clientesEmpleado.add(cliente);
+        }
+        return clientesEmpleado;
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Cliente> findAll() {
+    public List<Cliente> findAll() {        
         return super.findAll();
     }
 
