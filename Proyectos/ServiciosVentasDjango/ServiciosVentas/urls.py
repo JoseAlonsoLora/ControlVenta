@@ -21,5 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
     url(r'^empleado/', crearObtenerEmpleado),
-    url(r'^empleado/(?P<pk>[0-9]+)/$', EmpleadoDetail.as_view()),    
+    url(r'^empleados/(?P<pk>[0-9]+)/$', EmpleadoDetail.as_view()),    
 ]

@@ -9,7 +9,7 @@
 
 var app = angular.module('AdministrarVendedores', ['ui.bootstrap']);
 app.controller('tablaVendedoresController', function ($scope, $http, $window) {
-    $http.get("http://127.0.0.1:8000/empleado/?format=json")
+    $http.get("http://127.0.0.1:9000/empleado/")
             .then(function (response) {
                 $scope.datosEmpleados = response.data;
                 $scope.empleados = $scope.datosEmpleados.reverse();
@@ -24,17 +24,21 @@ app.controller('tablaVendedoresController', function ($scope, $http, $window) {
         $scope.correoElectronico = '';
         $scope.nombreUsuario = '';
         $scope.contrasena = '';
-        $scope.esconder = true;
+        $scope.esconder = false;
+        $scope.esconder2 = false;
         $scope.idEmpleado = -1;
         $scope.showModal = true;
     };
 
     $scope.openEdit = function (idEmpleado, nombres, apellidos, correoElectronico) {
-        $scope.esconder = false;
+        $scope.esconder = true;
+        $scope.esconder2 = true;
         $scope.idEmpleado = idEmpleado;
         $scope.nombres = nombres;
         $scope.apellidos = apellidos;
         $scope.correoElectronico = correoElectronico;
+        $scope.nombreUsuario = '-1';
+        $scope.contrasena = '-1';
         $scope.showModal = true;
     };
 
@@ -45,17 +49,21 @@ app.controller('tablaVendedoresController', function ($scope, $http, $window) {
             $window.alert("Algunos campos estan vacios");
         } else {
                 if ($scope.idEmpleado === -1) {
+                    $scope.hash = CryptoJS.SHA256($scope.contrasena);
                     var dataObj = {
-                        "idempleado": 700,
                         "nombres": $scope.nombres,
                         "apellidos": $scope.apellidos,
-                        "correoelectronico": $scope.correoElectronico
+                        "correoelectronico": $scope.correoElectronico,
+                        "nombreusuario": $scope.nombreUsuario,
+                        "contraseña": $scope.hash
                     };
-                    $http.post("http://127.0.0.1:8000/empleado/?format=json", dataObj).
+                    $http.post("http://127.0.0.1:9000/empleado/", dataObj).
                             then(function (response) {
                                 $scope.nombres = '';
                                 $scope.apellidos = '';
                                 $scope.correoElectronico = '';
+                                $scope.nombreUsuario = '';
+                                $scope.contrasena = '';
                                 $scope.showModal = false;
                                 $window.alert("Vendedor guardado exitosamente");
                                 $window.location.reload();
@@ -67,13 +75,15 @@ app.controller('tablaVendedoresController', function ($scope, $http, $window) {
                         "idempleado": $scope.idEmpleado,
                         "nombres": $scope.nombres,
                         "apellidos": $scope.apellidos,
-                        "correoelectronico": $scope.correoElectronico,
+                        "correoelectronico": $scope.correoElectronico
                     };
-                    $http.put("http://127.0.0.1:8000/empleado/?format=json" + $scope.idEmpleado, dataObj).
+                    $http.put("http://127.0.0.1:9000/empleados/" + $scope.idEmpleado+ "/", dataObj).
                             then(function (response) {
                                 $scope.nombres = '';
                                 $scope.apellidos = '';
                                 $scope.correoElectronico = '';
+                                $scope.nombreUsuario = '';
+                                $scope.contrasena = '';
                                 $scope.showModal = false;
                                 $window.alert("Vendedor modificado exitosamente");
                                 $window.location.reload();
@@ -94,28 +104,8 @@ app.controller('tablaVendedoresController', function ($scope, $http, $window) {
         $scope.showConfirmationModal = false;
     };
 
-    $scope.cancelarEliminacion = function () {
-        $scope.showEliminacionModal = false;
-    };
-
-    $scope.eliminar = function () {
-        $scope.showEliminacionModal = false;
-        $http.delete("http://127.0.0.1:8000/empleado/?format=json" + $scope.idEmpleado).
-                then(function (response) {
-                    $scope.showModal = false;
-                    $window.alert("Vendedor eliminado exitosamente");
-                    $window.location.reload();
-                }, function (response) {
-                    $window.alert("Lo sentimos, algo salio mal");
-                });
-    };
-
     $scope.confirmar = function () {
         $scope.showConfirmationModal = true;
-    };
-
-    $scope.confirmarEliminar = function () {
-        $scope.showEliminacionModal = true;
     };
 
 });

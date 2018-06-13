@@ -14,6 +14,7 @@ and open the template in the editor.
         <script src="controladores/PantallaVendedoresController.js"></script>
         <script src="http://angular-ui.github.com/bootstrap/ui-bootstrap-tpls-0.2.0.js"></script>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <script src="https://rawgit.com/brix/crypto-js/release-3.1.2/build/rollups/sha256.js"></script>
         <link href="css/estilos.css" rel="stylesheet">
 
 
@@ -72,7 +73,6 @@ and open the template in the editor.
                     <div>
                         Nombre(s):
                         <input ng-model="nombres" style="margin-left: 12px" type="text" class="form-control" placeholder="Ej. Alonso">
-                        <button style="float:right" class="btn btn-danger" ng-click="confirmarEliminar()" ng-hide="esconder">Eliminar</button>
                     </div>
                     <div>
                         Apellido(s):
@@ -82,11 +82,11 @@ and open the template in the editor.
                         Correo electrónico: 
                         <input ng-model="correoElectronico" style="margin-left: 12px" type="email" class="form-control" placeholder="Ej.ejemplo@hotmail.com">
                     </div>
-                    <div>
+                    <div ng-hide="esconder">
                         Nombre usuario: 
                         <input ng-model="nombreUsuario" style="margin-left: 28px" type="text" class="form-control" placeholder="Ej.JuanLopez">
                     </div>
-                    <div>
+                    <div ng-hide="esconder2">
                         Contraseña: 
                         <input ng-model="contrasena" style="margin-left: 54px" type="password" class="form-control">
                     </div>
@@ -106,19 +106,6 @@ and open the template in the editor.
                     <div class="modal-footer">
                         <button class="btn btn-success" ng-click="guardar()">Guardar</button>
                         <button class="btn" ng-click="cancelarConfirmacion()">Cancelar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div modal="showEliminacionModal">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmación</h5>
-                    <div class="modal-body">
-                        ¿Seguro que deseas eliminar al vendedor?
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" class="btn btn-success" ng-click="eliminar()">Eliminar</button>
-                        <button class="btn" ng-click="cancelarEliminacion()">Cancelar</button>
                     </div>
                 </div>
             </div>
