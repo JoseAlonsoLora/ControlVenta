@@ -6,17 +6,28 @@
 var app = angular.module('login', ['ui.bootstrap']);
 app.controller('loginController', function ($scope, $http, $window) {
     $scope.iniciarSesion = function () {
-        if ($scope.username === 'Ventas' && $scope.password === 'pass') {
-            var hash = CryptoJS.SHA256($scope.password);
-            $window.location = "Articulos.html?" + $scope.username + "?" + hash;
-        } else if ($scope.username === 'CEO' && $scope.password === 'pass') {
-            var hash = CryptoJS.SHA256($scope.password);
-            $window.location = "consultar_ventas.html?" + $scope.username + "?" + hash;
-        } else if ($scope.username === 'Envios' && $scope.password === 'pass') {
-            $window.location = "realizar_envio.html?" + $scope.username + "?" + hash;
+        if ($scope.username === '' && $scope.password === '') {
+            $window.alert("Algunos campos estan vacios");
         } else {
-            $scope.username = '';
-            $scope.password = '';
+            $scope.hash = CryptoJS.SHA256($scope.password);
+            var dataObj = {
+                "nombreusuario": $scope.username,
+                "contraseña": $scope.hash.toString()
+            };
+            $http.post("http://127.0.0.1:9000/login/", dataObj)
+                    .then(function (response) {
+                        var tipoUsuario = response.data.tipoUsuario;
+                        var key = response.data.key;
+                        if (tipoUsuario === "ventas") {
+                            $window.location = "Articulos.html?" + key;
+                        } else if (tipoUsuario === "envios") {
+                            $window.location = "realizar_envio.html?" + key;
+                        } else {
+                            $window.location = "consultar_ventas.html?" + key;
+                        }
+                    }, function (response) {
+                        $window.alert("Lo sentimos, algo salio mal");
+                    });
         }
     };
 });

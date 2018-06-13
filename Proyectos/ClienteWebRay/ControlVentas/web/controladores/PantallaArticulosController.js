@@ -9,6 +9,18 @@
 
 var app = angular.module('AdministrarCatalogo', ['ui.bootstrap']);
 app.controller('tablaArticulosController', function ($scope, $http, $window) {
+    $scope.q = window.location.search.slice(1);
+    var dataObj = {
+        "key": $scope.q
+    };
+    $http.post("http://127.0.0.1:9000/validar/",dataObj)
+            .then(function (response) {
+                if(!response.data.result || response.data.tipoUsuario !== "ventas"){
+                    $window.location = "Login.html";
+                }                  
+            }, function (response) {
+                 $window.location = "Login.html";
+            });
     $http.get("http://localhost:8080/ServiciosVentas/webresources/modelo.articulo")
             .then(function (response) {
                 $scope.datosArticulos = response.data;

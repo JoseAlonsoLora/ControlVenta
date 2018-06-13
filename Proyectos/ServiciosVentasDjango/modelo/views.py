@@ -84,5 +84,14 @@ def loginMovil(request):
 		return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 	return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 
-
-		
+@api_view(['POST'])
+def validarSesion(request):
+	diccionario = {}
+	try:
+		diccionario = request.data
+	except:
+		pass
+	sesion = Sesion.objects.get(pk = diccionario.get('key'))
+	if sesion:
+		return JsonResponse({'result': 'true','tipoUsuario':sesion.tipousuario}, safe=False)
+	return JsonResponse({'result': 'false','tipoUsuario':''}, safe=False)
