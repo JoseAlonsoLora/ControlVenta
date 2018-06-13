@@ -49,16 +49,20 @@ def crearObtenerEmpleado(request):
 			pass
 		empleado = Empleado()
 		empleado.nombres = diccionario.get('nombres')
-		empleado.aplellidos = diccionario.get('aplellidos')
+		empleado.apellidos = diccionario.get('apellidos')
 		empleado.correoelectronico = diccionario.get('correoelectronico')
 		empleado.save()
 		usuario = Usuario()
 		usuario.nombreusuario = diccionario.get('nombreusuario')
 		usuario.tipousuario = 'vendedor'
 		usuario.contraseña = diccionario.get('contraseña')
-		usuario.empleado_idempleado = empleado.idempleado
+		usuario.empleado_idempleado = empleado
+		usuario.save()
 		return Response({'result':'ok'}, status=status.HTTP_201_CREATED)
 
+class EmpleadoDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset =  Empleado.objects.all()
+	serializer_class = EmpleadoSerializer
 
 
 

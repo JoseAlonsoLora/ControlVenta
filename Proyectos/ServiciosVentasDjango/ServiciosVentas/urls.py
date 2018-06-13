@@ -20,5 +20,6 @@ from modelo.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login),
-    url(r'^empleado/', crearObtenerEmpleado),    
+    url(r'^empleado/', crearObtenerEmpleado),
+    url(r'^empleado/(?P<pk>[0-9]+)/$', EmpleadoDetail.as_view()),    
 ]
