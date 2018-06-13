@@ -64,7 +64,25 @@ class EmpleadoDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset =  Empleado.objects.all()
 	serializer_class = EmpleadoSerializer
 
-
+@api_view(['POST'])
+def loginMovil(request):
+	diccionario = {}
+	try:
+		diccionario = request.data
+	except:
+		pass
+	usuario = Usuario.objects.get(pk = diccionario.get('nombreusuario'))
+	if usuario:
+		if usuario.contraseña == diccionario.get('contraseña'):			
+			serializer = EmpleadoSerializer(usuario.empleado_idempleado)
+			sesion = Sesion()			
+			sesion.tipousuario = usuario.tipousuario
+			key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(20))
+			sesion.clave = key
+			sesion.save()
+			return JsonResponse(serializer.data, safe=False)
+		return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
+	return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 
 
 		
