@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Envíos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
+    <script src="js/angular.min.js"></script>
+</head>
+
+<body ng-app="realizar_envio" ng-controller="boton_inventario">
+    <div>
+    <p class="text-center">
+        <h1 class="text-center">Envíos</h1>
+        <button style="float:right" class="btn btn-success" ng-click="inventario()">Inventario</button>
+    </p>
+    </div>
+    <div class="row">
+        <select ng-controller="filtro_estado" ng-model="value" ng-options="n for (n,m) in filtros" ng-change="select()" class="col-md-2">
+        </select>
+        <div ng-controller="fecha_inicio" class="input-group col-md-3">
+            Fecha inicio
+            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
+                ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="select()" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open1()">Fecha</button>
+            </span>
+        </div>
+
+        <div ng-controller="fecha_fin" class="input-group col-md-3">
+                Fecha fin
+                <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions"
+                    ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="select()" />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open1()">Fecha</button>
+                </span>
+            </div>
+    </div>
+    <div ng-controller="tabla_ventas">
+        <button class="btn" ng-click="recargar()" >Aplicar filtro</button>
+        <table  class="table table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th>Vendedor</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="x in res">
+            <td>
+                <div ng-controller="datos_de_venta as $con">
+                    <script type="text/ng-template" id="datos_venta.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modal-title">Datos de venta</h3>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <p> Vendedor: {{$ctrl.venta.empleadoidEmpleado.nombres}} {{$ctrl.venta.empleadoidEmpleado.apellidos}} </p>
+                        <p> Cliente: {{$ctrl.venta.clienteidCliente.nombres}} {{$ctrl.venta.clienteidCliente.apellidos}} </p>
+                        <p> Fecha: {{$ctrl.venta.fechaVenta}} </p>
+                        <p> Total: ${{$ctrl.venta.montoVenta}} </p>
+                        <p> Estado: {{$ctrl.venta.estado}} </p>
+                        <p> Concepto:
+                            <ul ng-repeat="a in $ctrl.res">
+                                <li>{{a.cantidad}} {{a.articulo.descripcion}}</li>
+                            </ul>
+                        </p>
+                        <p>
+                            <button class="btn btn-primary" type = "button" ng-disabled="$ctrl.enviado" ng-click="$ctrl.enviar()" >Enviar</button>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+                        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+                    </div>
+                    </script>
+                    <button class="btn" ng-click="$con.mostrar_datos(x)">datos_de_venta</button>
+                </div>
+            </td>
+            <td>{{x.empleadoidEmpleado.nombres}} {{x.empleadoidEmpleado.apellidos}}</td>
+            <td>{{x.clienteidCliente.nombres}} {{x.clienteidCliente.apellidos}}</td>
+            <td>{{x.fechaVenta}}</td>
+            <td>${{x.montoVenta}}</td>
+            <td>{{x.estado}}</td>
+        </tr>
+    </table></div>
+    
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+<script src="js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+<script src="js/angular-chart.min.js"></script>
+<script src="js/modules/realizar_envio.js"></script>
+<script src="js/controllers/realizar_envio_controller.js"></script>
+
+</html>
