@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^loginMovil/', loginMovil),
     url(r'^empleado/', crearObtenerEmpleado),
     url(r'^empleados/(?P<pk>[0-9]+)/$', EmpleadoDetail.as_view()),
-    url(r'^validar/', validarSesion),    
+    url(r'^crearVenta/', guardarVenta),    
 ]

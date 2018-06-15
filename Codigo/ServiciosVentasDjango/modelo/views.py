@@ -85,13 +85,31 @@ def loginMovil(request):
 	return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-def validarSesion(request):
+def guardarVenta(request):
 	diccionario = {}
 	try:
 		diccionario = request.data
 	except:
 		pass
-	sesion = Sesion.objects.get(pk = diccionario.get('key'))
-	if sesion:
-		return JsonResponse({'result': 'true','tipoUsuario':sesion.tipousuario}, safe=False)
-	return JsonResponse({'result': 'false','tipoUsuario':''}, safe=False)
+	venta = Venta()
+	venta.fechaventa = diccionario.get("fechaventa")
+	venta.montoventa = diccionario.get("montoventa")
+	venta.estado = diccionario.get("estado")
+	venta.empleado_idempleado = Empleado.objects.get(pk = diccionario.get("idEmpleado"))
+	venta.cliente_idcliente = Cliente.objects.get(pk = diccionario.get("idCliente"))
+	venta.save()
+	articulosVenta = {}
+	articulosVenta = diccionario.get("listaArticulos")
+	for articulo in articulosVenta:
+		ventaHasArticulo = VentaHasArticulo()
+		ventaHasArticulo.cantidad = articulo.get("cantidad")
+		ventaHasArticulo.subtotal = articulo.get("subtotal")
+		ventaHasArticulo.venta_idventa = venta
+		articuloVenta = Articulo.objects.get(pk = articulo.get("idArticulo"))
+		ventaHasArticulo.articulo_idarticulo = articuloVenta
+		articuloVenta.cantidad = articuloVenta.cantidad - articulo.get("cantidad")		
+		ventaHasArticulo.save()
+		articuloVenta.save()
+	return Response({'result':'ok'}, status=status.HTTP_201_CREATED)
+
+
